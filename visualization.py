@@ -8,10 +8,12 @@
 
 import platform
 import numpy as np
+import os
 
-# matplotlib 백엔드 먼저 설정
+# matplotlib 백엔드 설정 (GUI 없는 환경용)
 import matplotlib
-matplotlib.use('Agg')
+if os.environ.get('DISPLAY') is None:
+    matplotlib.use('Agg')
 
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
