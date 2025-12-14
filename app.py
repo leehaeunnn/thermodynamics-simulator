@@ -799,10 +799,10 @@ with tab1:
                     st.write(f"**Q:** {path['Q']:.2f} L·atm")
                     st.write(f"**효율:** {path['efficiency']:.1f}%")
 
-    # 비교 그래프
-    st.divider()
-
+    # 비교 그래프 - 경로가 있을 때만 표시
     if st.session_state.paths or st.session_state.optimal_path:
+        st.divider()
+
         # 비교 그래프 설명
         st.markdown("""
         <div class="glow-card">
@@ -813,26 +813,7 @@ with tab1:
             </p>
         </div>
         """, unsafe_allow_html=True)
-    else:
-        # 경로가 없을 때 안내 메시지
-        st.markdown("""
-        <div class="glow-card" style="text-align: center; padding: 3rem;">
-            <h3 style="color: #7c3aed; margin-bottom: 1rem;">📊 경로별 비교 분석</h3>
-            <p style="color: #94a3b8; font-size: 1.1rem; margin-bottom: 1.5rem;">
-                아직 추가된 경로가 없습니다!
-            </p>
-            <div style="background: rgba(0, 212, 255, 0.1); border-radius: 12px; padding: 1.5rem; text-align: left;">
-                <p style="color: #00d4ff; font-weight: 600; margin-bottom: 0.8rem;">🚀 시작하는 방법:</p>
-                <ol style="color: #a0aec0; margin: 0; padding-left: 1.2rem; line-height: 2;">
-                    <li>👈 <strong>왼쪽 사이드바</strong>에서 경로 타입 선택 (등온/등압/등적/단열)</li>
-                    <li>➕ <strong>"경로 추가"</strong> 버튼 클릭</li>
-                    <li>또는 🔍 <strong>"최적 경로 찾기"</strong> 버튼으로 자동 탐색!</li>
-                </ol>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
 
-    if st.session_state.paths or st.session_state.optimal_path:
         col_g1, col_g2 = st.columns(2)
 
         with col_g1:
