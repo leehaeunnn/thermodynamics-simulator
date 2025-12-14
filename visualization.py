@@ -6,13 +6,52 @@
 - 열역학 사이클 시각화
 """
 
+import platform
 import numpy as np
+
+# matplotlib 백엔드 먼저 설정
+import matplotlib
+matplotlib.use('Agg')
+
 import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
 import plotly.graph_objects as go
 import plotly.express as px
 from plotly.subplots import make_subplots
 from typing import List, Dict, Optional, Tuple
 from thermodynamics import calculate_temperature, R, n, GAS_TYPES
+
+# ==================== 한글 폰트 설정 ====================
+
+def get_korean_font():
+    """시스템에 맞는 한글 폰트 이름 반환"""
+    system = platform.system()
+
+    if system == 'Windows':
+        font_candidates = ['Malgun Gothic', 'NanumGothic', 'NanumBarunGothic', 'Gulim', 'Dotum']
+    elif system == 'Darwin':
+        font_candidates = ['AppleGothic', 'Apple SD Gothic Neo', 'NanumGothic']
+    else:
+        font_candidates = ['NanumGothic', 'NanumBarunGothic', 'UnDotum', 'DejaVu Sans']
+
+    available_fonts = [f.name for f in fm.fontManager.ttflist]
+
+    for font in font_candidates:
+        if font in available_fonts:
+            return font
+    return 'sans-serif'
+
+# 폰트 이름 저장
+KOREAN_FONT = get_korean_font()
+
+def apply_korean_font():
+    """매번 그래프 생성 전 호출하여 한글 폰트 적용"""
+    plt.rcParams['font.family'] = KOREAN_FONT
+    plt.rcParams['font.sans-serif'] = [KOREAN_FONT, 'DejaVu Sans', 'Arial']
+    plt.rcParams['axes.unicode_minus'] = False
+
+# 초기 폰트 설정 적용
+apply_korean_font()
 
 
 # ==================== Matplotlib 기반 시각화 ====================
@@ -34,6 +73,9 @@ def plot_pv_diagram(paths: List[Dict], optimal_path: Optional[Dict] = None,
         bg_color = 'white'
         text_color = 'black'
         grid_color = 'lightgray'
+
+    # 스타일 적용 후 폰트 재설정
+    apply_korean_font()
 
     fig, ax = plt.subplots(figsize=figsize)
     fig.patch.set_facecolor(bg_color)
@@ -119,6 +161,9 @@ def plot_work_comparison(paths: List[Dict], optimal_path: Optional[Dict] = None,
         plt.style.use('default')
         bg_color = 'white'
 
+    # 스타일 적용 후 폰트 재설정
+    apply_korean_font()
+
     fig, ax = plt.subplots(figsize=figsize)
     fig.patch.set_facecolor(bg_color)
     ax.set_facecolor(bg_color)
@@ -175,6 +220,9 @@ def plot_efficiency_comparison(paths: List[Dict], optimal_path: Optional[Dict] =
     else:
         plt.style.use('default')
         bg_color = 'white'
+
+    # 스타일 적용 후 폰트 재설정
+    apply_korean_font()
 
     fig, ax = plt.subplots(figsize=figsize)
     fig.patch.set_facecolor(bg_color)
