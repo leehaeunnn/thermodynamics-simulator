@@ -751,26 +751,45 @@ with tab1:
                     except Exception as e:
                         st.error(f"오류: {e}")
 
-        # P-V 다이어그램
-        st.markdown("""
-        <div style="background: rgba(0, 212, 255, 0.05); border-left: 3px solid #00d4ff; padding: 1rem; border-radius: 0 12px 12px 0; margin-bottom: 1rem;">
-            <h4 style="color: #00d4ff; margin: 0 0 0.5rem 0;">📈 P-V 다이어그램</h4>
-            <p style="color: #94a3b8; margin: 0; font-size: 0.9rem;">
-                <strong>X축</strong>: 부피 V (L) | <strong>Y축</strong>: 압력 P (atm)<br>
-                <span style="color: #4ade80;">●</span> 초기 상태 A → <span style="color: #f472b6;">■</span> 최종 상태 B<br>
-                <em>곡선 아래 면적 = 기체가 한 일 (W)</em>
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
+        # P-V 다이어그램 - 경로가 있을 때만 표시
+        if st.session_state.paths or st.session_state.optimal_path:
+            st.markdown("""
+            <div style="background: rgba(0, 212, 255, 0.05); border-left: 3px solid #00d4ff; padding: 1rem; border-radius: 0 12px 12px 0; margin-bottom: 1rem;">
+                <h4 style="color: #00d4ff; margin: 0 0 0.5rem 0;">📈 P-V 다이어그램</h4>
+                <p style="color: #94a3b8; margin: 0; font-size: 0.9rem;">
+                    <strong>X축</strong>: 부피 V (L) | <strong>Y축</strong>: 압력 P (atm)<br>
+                    <span style="color: #4ade80;">●</span> 초기 상태 A → <span style="color: #f472b6;">■</span> 최종 상태 B<br>
+                    <em>곡선 아래 면적 = 기체가 한 일 (W)</em>
+                </p>
+            </div>
+            """, unsafe_allow_html=True)
 
-        fig_pv, _ = plot_pv_diagram(
-            st.session_state.paths,
-            st.session_state.optimal_path,
-            st.session_state.P1, st.session_state.V1,
-            st.session_state.P2, st.session_state.V2,
-            dark_mode=st.session_state.dark_mode
-        )
-        st.pyplot(fig_pv)
+            fig_pv, _ = plot_pv_diagram(
+                st.session_state.paths,
+                st.session_state.optimal_path,
+                st.session_state.P1, st.session_state.V1,
+                st.session_state.P2, st.session_state.V2,
+                dark_mode=st.session_state.dark_mode
+            )
+            st.pyplot(fig_pv)
+        else:
+            # 경로가 없을 때 - 시작 안내
+            st.markdown("""
+            <div class="glow-card" style="text-align: center; padding: 3rem;">
+                <div style="font-size: 4rem; margin-bottom: 1rem;">🚀</div>
+                <h3 style="color: #00d4ff; margin-bottom: 1rem;">시작하기</h3>
+                <p style="color: #94a3b8; font-size: 1.1rem; margin-bottom: 1.5rem;">
+                    위의 <strong style="color: #7c3aed;">"🔍 최적 경로 찾기"</strong> 버튼을 눌러<br>
+                    열역학 경로를 탐색해보세요!
+                </p>
+                <div style="background: rgba(124, 58, 237, 0.1); border-radius: 12px; padding: 1rem; text-align: left;">
+                    <p style="color: #a0aec0; margin: 0; font-size: 0.9rem; line-height: 1.8;">
+                        💡 <strong>Tip:</strong> 왼쪽 사이드바에서 초기/최종 상태를 조절하고,<br>
+                        등온/등압/등적/단열 경로를 직접 추가할 수도 있어요!
+                    </p>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
 
     with col_main2:
         # 결과 요약
