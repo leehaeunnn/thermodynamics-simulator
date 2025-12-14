@@ -248,10 +248,29 @@ st.markdown("""
         border-right: 1px solid rgba(100, 200, 255, 0.1);
     }
 
+    /* 사이드바 모든 텍스트 밝게 */
+    [data-testid="stSidebar"],
+    [data-testid="stSidebar"] * {
+        color: #e2e8f0 !important;
+    }
+
     [data-testid="stSidebar"] .stSelectbox label,
-    [data-testid="stSidebar"] .stSlider label {
+    [data-testid="stSidebar"] .stSlider label,
+    [data-testid="stSidebar"] .stMarkdown,
+    [data-testid="stSidebar"] p,
+    [data-testid="stSidebar"] span,
+    [data-testid="stSidebar"] h1,
+    [data-testid="stSidebar"] h2,
+    [data-testid="stSidebar"] h3,
+    [data-testid="stSidebar"] h4 {
         font-weight: 600;
-        color: #e2e8f0;
+        color: #e2e8f0 !important;
+    }
+
+    [data-testid="stSidebar"] .stSelectbox > div > div,
+    [data-testid="stSidebar"] input {
+        color: #e2e8f0 !important;
+        background-color: rgba(30, 41, 59, 0.8) !important;
     }
 
     /* 익스팬더 스타일 */
